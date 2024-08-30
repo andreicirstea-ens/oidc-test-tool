@@ -270,6 +270,269 @@
 					]
 				},
 				{
+					"name": "2FA Select Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pmutils(pm).testCallbacks.testResponseStatus200or302();\r",
+									"\r",
+									"pmutils(pm).SetVerificationTokenFromResponse(pm.response);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Tenant",
+									"value": "{{Tenant Name}}",
+									"type": "text"
+								},
+								{
+									"key": "IsApproved",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{redirect_uri}}",
+									"type": "text"
+								},
+								{
+									"key": "state",
+									"value": "{{state}}",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "{{scope}}",
+									"type": "text"
+								},
+								{
+									"key": "nonce",
+									"value": "{{nonce}}",
+									"type": "text"
+								},
+								{
+									"key": "code_challenge",
+									"value": "{{code_challenge}}",
+									"type": "text"
+								},
+								{
+									"key": "code_challenge_method",
+									"value": "{{code_method}}",
+									"type": "text"
+								},
+								{
+									"key": "Username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "Password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "__RequestVerificationToken",
+									"value": "{{request_verification_token}}",
+									"type": "text"
+								},
+								{
+									"key": "TwoStepHasCode",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "response_type",
+									"value": "{{validations_common_response_type}}",
+									"type": "text"
+								},
+								{
+									"key": "response_mode",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{CFS Master URL}}/Home/OAuthTwoStep",
+							"host": [
+								"{{CFS Master URL}}"
+							],
+							"path": [
+								"Home",
+								"OAuthTwoStep"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2FA Submit Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pmutils(pm).testCallbacks.testResponseStatus200or302();\r",
+									"\r",
+									"pmutils(pm).ExtractAndSetTokens(pm.response, 'query', ({ authorization_code }) => {\r",
+									"    pmutils(pm).testCallbacks.testAuthorizationCode(authorization_code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Tenant",
+									"value": "{{Tenant Name}}",
+									"type": "text"
+								},
+								{
+									"key": "IsApproved",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{redirect_uri}}",
+									"type": "text"
+								},
+								{
+									"key": "state",
+									"value": "{{state}}",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "{{scope}}",
+									"type": "text"
+								},
+								{
+									"key": "nonce",
+									"value": "{{nonce}}",
+									"type": "text"
+								},
+								{
+									"key": "code_challenge",
+									"value": "{{code_challenge}}",
+									"type": "text"
+								},
+								{
+									"key": "code_challenge_method",
+									"value": "{{code_method}}",
+									"type": "text"
+								},
+								{
+									"key": "Username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "Password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "__RequestVerificationToken",
+									"value": "{{request_verification_token}}",
+									"type": "text"
+								},
+								{
+									"key": "TwoStepCode",
+									"value": "{{2fa_code}}",
+									"type": "text"
+								},
+								{
+									"key": "RememberMachine",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "response_type",
+									"value": "{{validations_common_response_type}}",
+									"type": "text"
+								},
+								{
+									"key": "response_mode",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{CFS Master URL}}/Home/OAuthTwoStep",
+							"host": [
+								"{{CFS Master URL}}"
+							],
+							"path": [
+								"Home",
+								"OAuthTwoStep"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Request for tokens",
 					"event": [
 						{
@@ -5117,11 +5380,12 @@
 					"                const $form = $(\"form\");",
 					"",
 					"                const targetUrl = $form.attr('action');",
-					"                const isLoginRequired = targetUrl.endsWith('/authorizelogin');",
+					"                const isLoginRequired = targetUrl.endsWith('/authorizelogin') || targetUrl.endsWith('/OAuthTwoStep');",
 					"",
 					"                const requestBody = {",
 					"                    ...{",
 					"                        __RequestVerificationToken: $form.find('input[name=\"__RequestVerificationToken\"]').attr('value'),",
+					"                        Tenant: $form.find('input[name=\"Tenant\"]').attr('value'),",
 					"                        IsApproved: true,",
 					"                        client_id: $form.find('input[name=\"client_id\"]').attr('value'),",
 					"                        redirect_uri: $form.find('input[name=\"redirect_uri\"]').attr('value'),",
@@ -5221,6 +5485,28 @@
 					"            },",
 					"",
 					"            /**",
+					"             * @param {require('postman-collection').Response} response",
+					"             */",
+					"            SetVerificationTokenFromResponse(response) {",
+					"                const $ = cheerio.load(response.text());",
+					"                const $form = $(\"form\");",
+					"                pm.collectionVariables.set('request_verification_token', $form.find('input[name=\"__RequestVerificationToken\"]').attr('value'));",
+					"            },",
+					"",
+					"            /**",
+					"             * @param {require('postman-collection').Response} response",
+					"             * @param {'form' | 'hash' | 'query'} urlQueryExtractionMode",
+					"             * @param {(variablesMap: object) => void} callback",
+					"             */",
+					"            ExtractAndSetTokens(response, urlQueryExtractionMode, callback) {",
+					"                const variablesMap = this.extractTokenVariablesFromResponse(response, urlQueryExtractionMode);",
+					"                this.setCollectionVariables(variablesMap);",
+					"                this.setVisualizer(variablesMap);",
+					"",
+					"                callback(variablesMap);",
+					"            },",
+					"",
+					"            /**",
 					"             * @param {'form' | 'hash' | 'query'} urlQueryExtractionMode",
 					"             * @param {(variablesMap: object) => void} callback",
 					"             */",
@@ -5261,19 +5547,12 @@
 					"                                return;",
 					"                            }",
 					"",
-					"                            const variablesMap = this.extractTokenVariablesFromResponse(response, urlQueryExtractionMode);",
-					"                            this.setCollectionVariables(variablesMap);",
-					"                            this.setVisualizer(variablesMap);",
-					"",
-					"                            callback(variablesMap);",
+					"                            this.SetVerificationTokenFromResponse(response);",
+					"                            this.ExtractAndSetTokens(response, urlQueryExtractionMode, callback);",
 					"                        }",
 					"                    );",
 					"                } else {",
-					"                    const variablesMap = this.extractTokenVariablesFromResponse(pm.response, urlQueryExtractionMode);",
-					"                    this.setCollectionVariables(variablesMap);",
-					"                    this.setVisualizer(variablesMap);",
-					"",
-					"                    callback(variablesMap);",
+					"                    this.ExtractAndSetTokens(pm.response, urlQueryExtractionMode, callback);",
 					"                }",
 					"            },",
 					"",
@@ -5458,6 +5737,16 @@
 		{
 			"key": "refresh_token",
 			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "request_verification_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "2fa_code",
+			"value": "000000",
 			"type": "string"
 		}
 	]
